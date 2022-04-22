@@ -2,6 +2,9 @@
 ```
 kubectl create ns water
 
+kubectl apply -f water_init.yaml # 配置ingress代理访问进行初始化配置
+
+
 
 helm upgrade --install waterapi \
   --set nameOverride="waterapi" \

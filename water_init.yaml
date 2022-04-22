@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: xwater
+  namespace: water
+  labels:
+    apps: xwater
+spec:
+  containers:
+  - name: xwater
+    image: noearorg/xwater:2.6.1
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 19371
+      name: http
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xwater
+  namespace: water
+  labels:
+    apps: xwater
+spec:
+  type: ClusterIP
+  ports:
+    - port: 19371
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    apps: xwater
