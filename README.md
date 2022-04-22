@@ -1,5 +1,8 @@
 ### water 安装
 ```
+kubectl create ns water
+
+
 helm upgrade --install waterapi \
   --set nameOverride="waterapi" \
   --set containerPort="9371" \
