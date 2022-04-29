@@ -2,7 +2,7 @@
 ```
 kubectl create ns water
 
-kubectl apply -f water_init.yaml # 配置ingress代理访问进行初始化配置
+kubectl apply -f xwater.yaml # 配置ingress代理访问进行初始化配置
 
 
 
