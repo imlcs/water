@@ -43,8 +43,8 @@ spec:
           readinessProbe:
             tcpSocket:
               port: http
-            initialDelaySeconds: 5
-            periodSeconds: 10
+            initialDelaySeconds: 30
+            periodSeconds: 15
           livenessProbe:
             tcpSocket:
               port: http
@@ -56,10 +56,22 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - {{ include "water.fullname" . }}
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - {{ include "water.fullname" . }}
+              topologyKey: kubernetes.io/hostname
+            weight: 100
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
